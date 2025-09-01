@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+rcs_alankit_einvoicing.access_alankit_einvoice_cancel,access_alankit_einvoice_cancel,rcs_alankit_einvoicing.model_alankit_einvoice_cancel,base.group_user,1,1,1,1

@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="paperformat_einvoice_temp" model="report.paperformat">
+        <field name="name">Paperformat E-invoice</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">6</field>
+        <field name="margin_bottom">6</field>
+        <field name="margin_left">4</field>
+        <field name="margin_right">4</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <template id="report_einvoice_template">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page border p-2">
+                    <style>
+                        .border, .table-bordered, .table-bordered td,.table-bordered th{
+                        border-color: #b0b4b8 !important;
+                        }
+                    </style>
+<!--                    <p style="page-break-before: always;"/>-->
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tbody>
+                            <tr style="width: 45%;">
+                                <th class="" style="vertical-align: middle !important;">
+<!--                                    <h1>Government of India e-Invoice System</h1>-->
+                                    <h4 style="font-weight: 900; !important">
+                                        <span t-esc="doc.prepare_einvoice_report_data().get('SellerDtls').get('Gstin') or ''"/>
+                                        <br/>
+                                        <span t-esc="doc.prepare_einvoice_report_data().get('SellerDtls').get('LglNm') or ''"/>
+                                    </h4>
+                                </th>
+                                <th style="width: 55%;padding-right: 5px;text-align: right;vertical-align: middle;">
+                                    <img t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s' %('QR', doc.einvoice_qr_data(), 200, 200)"
+                                         style="max-height: 180px;margin: 0;"/>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="invoice_details mt-3 " style="font-size:13px">
+                        <div class="row m-0 p-1 border border-bottom-0">
+                            <div class="col-12">
+                                <span class="font-weight-bold">1. e-invoice Details</span>
+                            </div>
+                        </div>
+                        <div class="row m-0 p-1 border">
+                            <div class="col-1">
+                                <strong>IRN :</strong>
+                            </div>
+                            <div class="col-4">
+                                <t t-esc="doc.prepare_einvoice_report_data().get('Irn') or ''"/>
+                            </div>
+                            <div class="col-1 px-1">
+                                <strong>Ack No.:</strong>
+                            </div>
+                            <div class="col-2 px-1">
+                                <t t-esc="doc.prepare_einvoice_report_data().get('AckNo') or ''"/>
+                            </div>
+                            <div class="col-1 px-1">
+                                <strong>Ack Date:</strong>
+                            </div>
+                            <div class="col-3 text-wrap">
+                                <t t-esc="doc.prepare_einvoice_report_data().get('AckDt') or ''"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="transaction_dtls my-1" style="font-size:13px">
+                        <div class="row m-0 p-1 border border-bottom-0">
+                            <div class="col-12">
+                                <p>2. Transaction Details</p>
+                            </div>
+                        </div>
+                        <div class="row m-0 p-1 border border-bottom-0">
+                            <div class="col-2">
+                                <strong>Category</strong>
+                            </div>
+                            <div class="col-3">
+                                :&amp;nbsp;
+                                <t t-debug="1"/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('TranDtls',{}).get('SupTyp','-') or ''"/>
+                            </div>
+                            <div class="col-2">
+                                <strong>Document No.</strong>
+                            </div>
+                            <div class="col-3">
+                                :&amp;nbsp;
+                                <span t-esc="doc.prepare_einvoice_report_data().get('DocDtls').get('No') or ''"/>
+                            </div>
+                        </div>
+                        <div class="row m-0 p-1 border border-top-0">
+                            <div class="col-2">
+                                <strong>Document Type</strong>
+                            </div>
+                            <div class="col-3">
+                                :&amp;nbsp;
+                                <span t-esc="doc.prepare_einvoice_report_data().get('DocDtls').get('Typ') or ''"/>
+                            </div>
+                            <div class="col-2">
+                                <strong>Document Date</strong>
+                            </div>
+                            <div class="col-3">
+                                :&amp;nbsp;
+                                <span t-esc="doc.prepare_einvoice_report_data().get('DocDtls').get('Dt') or ''"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="party_dtls my-1" style="font-size:13px">
+                        <div class="row m-0 p-1 border border-bottom-0">
+                            <div class="col-12">
+                                <span class="font-weight-bold">3. Party Details</span>
+                            </div>
+                        </div>
+                        <div class="row m-0 p-1 border">
+                            <div class="col-6 border-right">
+                                <strong>Seller :</strong>
+                                <br/>
+                                GSTIN :
+                                <span t-esc="doc.prepare_einvoice_report_data().get('SellerDtls').get('Gstin') or ''"/>
+                                <br/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('SellerDtls').get('LglNm') or ''"/>
+                                <br/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('SellerDtls').get('Addr1') or ''"/>
+                                <br/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('SellerDtls').get('Loc') or ''"/>
+                                <br/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('SellerDtls').get('Pin') or ''"/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <strong>Dispatcher :</strong>
+                                <br/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('DispDtls').get('Nm') or ''"/>
+                                <br/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('DispDtls').get('Addr1') or ''"/>
+                                <br/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('DispDtls').get('Loc') or ''"/>
+                                <br/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('DispDtls').get('Pin') or ''"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Purchaser :</strong>
+                                <br/>
+                                GSTIN :
+                                <span t-esc="doc.prepare_einvoice_report_data().get('BuyerDtls').get('Gstin') or ''"/>
+                                <br/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('BuyerDtls').get('LglNm') or ''"/>
+                                <br/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('BuyerDtls').get('Addr1') or ''"/>
+                                <br/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('BuyerDtls').get('Loc') or ''"/>
+                                <br/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('BuyerDtls').get('Pin') or ''"/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <strong>Shipping :</strong>
+                                <t t-if="doc.prepare_einvoice_report_data().get('ShipDtls').get('Gstin')">
+                                <br/>GSTIN :
+                                <span  t-esc="doc.prepare_einvoice_report_data().get('ShipDtls').get('Gstin') or ''"/>
+                                </t>
+                                <br/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('ShipDtls').get('LglNm') or ''"/>
+                                <br/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('ShipDtls').get('Addr1') or ''"/>
+                                <br/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('ShipDtls').get('Loc') or ''"/>
+                                <br/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('ShipDtls').get('Pin') or ''"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="goods_dtls my-1" style="font-size:13px">
+                        <div class="row m-0 p-1 border border-bottom-0">
+                            <div class="col-12">
+                                <span class="font-weight-bold">4. Goods Details</span>
+                            </div>
+                        </div>
+                        <div class="row m-0 p-1 border border-bottom-0">
+                            <div class="col-12 mt-4">
+                                <style>
+                                    .table th, .table td {
+                                            vertical-align: middle !important;
+                                        }
+                                    th {
+                                        font-weight: bold !important;
+                                    }
+                                </style>
+                                <!-- First Grid for Product Details -->
+                                <div class="row">
+                                    <div class="col-12 p-0">
+                                        <table class="table table-bordered table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 5% !important;vertical-align: middle !important;">SNo</th>
+                                                    <th style="width: 15% !important;">Product Description</th>
+                                                    <th style="width: 9% !important;">HSN Code</th>
+                                                    <th style="width: 7% !important;">Qty</th>
+                                                    <th style="width: 5% !important;">Unit</th>
+                                                    <th style="width: 8% !important;">Unit Price (Rs)</th>
+                                                    <th style="width: 8% !important;">Discount (Rs)</th>
+                                                    <th style="width: 10% !important;">Taxable Amount (Rs)</th>
+                                                    <th style="width: 10% !important;">Tax Rate (GST + Cess | State Cess + Cess Non.Advol)</th>
+                                                    <th style="width: 10% !important;">Other Total Charges (Rs)</th>
+                                                    <th style="width: 12% !important;text-align: center;!important;">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                 <t t-foreach="doc.prepare_einvoice_report_data().get('ItemList', [])" t-as="item">
+                                                    <tr>
+                                                        <td t-esc="int(item.get('SlNo', 0))"/>
+                                                        <td t-esc="item.get('PrdDesc')"/>
+                                                        <td t-esc="item.get('HsnCd')"/>
+                                                        <td t-esc="int(item.get('Qty', 0))"/>
+                                                        <td t-esc="item.get('Unit')"/>
+                                                        <td t-esc="int(item.get('UnitPrice', 0))"/>
+                                                        <td t-esc="int(item.get('Discount', 0))"/>
+                                                        <td t-esc="int(item.get('AssAmt', 0))"/>
+                                                        <td t-esc="str(item.get('GstRt', 0)) + ' + ' + str(item.get('CesRt', 0)) + ' | ' + str(item.get('StateCesRt', 0)) + ' + ' + str(item.get('StateCesNonAdvlAmt', 0))"/>
+                                                        <td t-esc="int(item.get('OthChrg', 0))"/>
+                                                        <td t-esc="int(item.get('TotItemVal', 0))"/>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-0 p-1 border border-top-0" style="page-break-inside: avoid;">
+                            <div class="col-12">
+                                <!-- Second Grid for Tax Details -->
+                                <div class="row">
+                                    <div class="col-12 p-0">
+                                        <table class="table table-bordered table-sm mb-0" style=" width: 100%; table-layout: fixed !important;">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th style="vertical-align: middle !important;">Taxable Amt</th>
+                                                    <th>CGST Amt</th>
+                                                    <th>SGST Amt</th>
+                                                    <th>IGST Amt</th>
+                                                    <th>CESS Amt</th>
+                                                    <th>State CESS Amt</th>
+                                                    <th>Round Off Amt</th>
+                                                    <th>Total Inv. Amt</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="text-align: left; vertical-align: bottom !important;">
+                                                <tr>
+                                                    <td t-esc="int(doc.prepare_einvoice_report_data().get('ValDtls', {}).get('AssVal', 0))"/>
+                                                    <td t-esc="int(doc.prepare_einvoice_report_data().get('ValDtls', {}).get('CgstVal', 0))"/>
+                                                    <td t-esc="int(doc.prepare_einvoice_report_data().get('ValDtls', {}).get('SgstVal', 0))"/>
+                                                    <td t-esc="int(doc.prepare_einvoice_report_data().get('ValDtls', {}).get('IgstVal', 0))"/>
+                                                    <td t-esc="int(doc.prepare_einvoice_report_data().get('ValDtls', {}).get('CesVal', 0))"/>
+                                                    <td t-esc="int(doc.prepare_einvoice_report_data().get('ValDtls', {}).get('StCesVal', 0))"/>
+                                                    <td t-esc="int(doc.prepare_einvoice_report_data().get('ValDtls', {}).get('RndOffAmt', 0))"/>
+                                                    <td t-esc="int(doc.prepare_einvoice_report_data().get('ValDtls', {}).get('TotInvVal', 0))"/>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info" style="font-size:13px">
+                        <div class="row m-0 pt-3 border">
+                            <div class="col-4">
+                                <p><b>Generated By:</b>
+                                    <span t-esc="doc.prepare_einvoice_report_data().get('SellerDtls').get('Gstin') or 'N/A'"/>
+                                </p>
+                                <p><b>Print Date:</b>
+                                    <span t-esc="doc.prepare_einvoice_report_data().get('AckDt') or ''"/>
+                                </p>
+                            </div>
+
+                            <div class="col-4 d-flex justify-content-center align-items-center mb-2">
+                                <t t-esc="str(doc.prepare_einvoice_report_data().get('AckNo'))"
+                                   t-options="{'widget': 'barcode', 'humanreadable': 1, 'width': 400, 'height': 100, 'img_style': 'height:60px;'}"/>
+<!--                                <t t-esc="doc.prepare_einvoice_report_data().get('AckNo')"-->
+<!--                                  t-options="{'widget': 'barcode', 'humanreadable': 1, 'width': 400, 'height': 100, 'img_style': 'height:60px;'}"/>-->
+                            </div>
+
+                            <div class="col-4 text-center">
+                                <strong>E-sign</strong>
+                                <br/>
+                                <strong>Digitally Signed by NIC-IRP on:</strong>
+                                <br/>
+                                <span t-esc="doc.prepare_einvoice_report_data().get('AckDt') or ''"/>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <p style="page-break-before: always;"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_einvoice" model="ir.actions.report">
+        <field name="name">E-Invoice Report</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">rcs_alankit_einvoicing.report_einvoice_template</field>
+        <field name="report_file">rcs_alankit_einvoicing.report_einvoice_template</field>
+        <field name="print_report_name">'E-Invoice Report - %s' % (object.name)</field>
+        <field name="paperformat_id" ref="rcs_alankit_einvoicing.paperformat_einvoice_temp"/>
+<!--        <field name="binding_model_id" ref="account.model_account_move"/>-->
+        <field name="binding_model_id" eval="False"/>
+    </record>
+</odoo>
+

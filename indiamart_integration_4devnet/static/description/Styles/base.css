@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to bottom, #f9f9f9, #f0f0f0);
+  padding: 40px 20px;
+}
+
+html {
+  scroll-behavior: smooth;
+}

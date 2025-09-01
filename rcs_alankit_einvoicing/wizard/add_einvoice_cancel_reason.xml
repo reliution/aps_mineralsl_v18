@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    ewaybill cancellation-->
+    <record id="view_add_einvoice_cancel_reason_form" model="ir.ui.view">
+        <field name="name">cancel_einvoice.reason.form</field>
+        <field name="model">alankit.einvoice.cancel</field>
+        <field name="arch" type="xml">
+            <form string="Add Cancel Reason">
+                <group>
+                    <field name="einvoice_cancel_reasons"/>
+                    <field name="einvoice_cancel_remarks"/>
+                </group>
+                <footer>
+                    <button string='Cancel E-invoice' name='cancel_einvoice' type='object' class='btn-primary'/>
+                    <button string='Cancel' class='btn-default' special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_einvoice" model="ir.actions.act_window">
+        <field name="name">Cancel E-invoice Reason</field>
+        <field name="type">cancel_einvoice.reason</field>
+        <field name="res_model">alankit.einvoice.cancel</field>
+    </record>
+
+</odoo>

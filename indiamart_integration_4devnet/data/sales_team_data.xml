@@ -1,0 +1,8 @@
+<odoo>
+    <data noupdate="1">
+        <record id="sales_team_indiamart" model="crm.team">
+            <field name="name">IndiaMart</field>
+            <field name="use_leads" eval="True"/>
+        </record>
+    </data>
+</odoo>

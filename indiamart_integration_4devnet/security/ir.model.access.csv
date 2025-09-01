@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+indiamart_integration_4devnet.access_indiamart_log,access_indiamart_log,indiamart_integration_4devnet.model_indiamart_log,base.group_user,1,1,1,1
+access_indiamart_config_settings_user,indiamart.config.settings user,model_indiamart_config_settings,,1,0,0,0
+access_indiamart_config_settings_manager,indiamart.config.settings manager,model_indiamart_config_settings,,1,1,1,1

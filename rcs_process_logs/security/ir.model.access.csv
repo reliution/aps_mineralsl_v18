@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_common_process_log,common.process.log,model_common_process_log,,1,1,1,1
+access_common_process_log_lines,common.process.log.lines,model_common_process_log_lines,,1,1,1,1

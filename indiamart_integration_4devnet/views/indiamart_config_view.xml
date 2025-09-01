@@ -1,0 +1,84 @@
+<odoo>
+    <record id="view_indiamart_config_form" model="ir.ui.view">
+        <field name="name">Indiamart Configuration Setting</field>
+        <field name="model">indiamart.config.settings</field>
+        <field name="arch" type="xml">
+            <form string="Indiamart Configuration">
+                <div class="oe_button_box"
+                     style="margin-top: 10px; display: flex; justify-content: center; gap: 15px;">
+                    <button name="toggle_environment"
+                            type="object"
+                            icon="fa-exchange"
+                            class="oe_stat_button">
+                        <div class="o_stat_info o_field_widget">
+                            <span class="o_stat_text">Toggle Mode</span>
+                            <field name="environment" widget="statusbar" style="margin-top: 10px;"/>
+                        </div>
+                    </button>
+                </div>
+
+                <sheet>
+                    <div class="oe_button_box"
+                         style="margin-top: 10px; display: flex; justify-content: right; gap: 15px;">
+                        <button name="action_run_scheduler"
+                                type="object"
+                                class="oe_highlight oe_button"
+                                string="Run Scheduler"
+                                icon="fa-refresh"
+                                style="padding: 2px 5px; font-size: 10px; height: 24px; line-height: 18px;"/>
+                    </div>
+                    <!-- Title Section -->
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+
+                    <!-- Tabs for Better Organization -->
+                    <notebook>
+                        <!-- General Settings Tab -->
+                        <page string="General Settings">
+                            <group>
+                                <group>
+                                    <field name="glusr_crm_key"/>
+                                    <field name="company_id"/>
+                                </group>
+                                <group>
+                                    <field name="create_customer"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- Date Settings Tab -->
+                        <page string="Date Settings">
+                            <group>
+                                <group>
+                                    <field name="start_time"/>
+                                    <field name="end_time"/>
+                                </group>
+                                <group>
+                                    <field name="last_sync_time" readonly="1"/>
+                                    <field name="api_key_generated_time" invisible="1"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_indiamart_config_list" model="ir.ui.view">
+        <field name="name">Indiamart Configuration list</field>
+        <field name="model">indiamart.config.settings</field>
+        <field name="arch" type="xml">
+            <list string="Indiamart Configurations">
+                <field name="glusr_crm_key"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+                <field name="last_sync_time"/>
+            </list>
+        </field>
+    </record>
+</odoo>

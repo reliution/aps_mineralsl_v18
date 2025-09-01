@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="alankit_account_move_form_inherit" model="ir.ui.view">
+            <field name="name">alankit.account_move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='button_set_checked']" position="after">
+                    <button name="create_einvoice" string="Send E-Invoice"
+                            invisible="move_type not in ('out_invoice','out_refund', 'in_invoice','in_refund') or (state != 'posted') or einvoice_generated"
+                            class="oe_highlight" type="object"/>
+                    <button name="cancel_einvoice" string="Cancel E-Invoice"
+                            invisible="(state != 'posted') or not einvoice_generated or einvoice_canceled"
+                            class="oe_highlight"
+                            type="object"/>
+                </xpath>
+                 <xpath expr="//sheet/div[@name='button_box']" position="inside">
+                    <button name="open_alankit_einvoice_logs" type="object" class="oe_stat_button" icon="fa-history"
+                            invisible="einvoice_log_count == 0">
+<!--                            attrs="{'invisible': [('einvoice_log_count', '=', 0)]}">-->
+                        <field name="einvoice_log_count" widget="statinfo" string="Alankit Einvoice Logs"/>
+                    </button>
+                </xpath>
+
+                <xpath expr="//page[@name='alankit_details']" position="inside">
+                    <group string="Generated E-invoice Details">
+                        <field name="irn_no" readonly="1" force_save="1"/>
+                        <field name="invoice_ack_no" readonly="1" force_save="1"/>
+                        <field name="invoice_ack_dt" readonly="1" force_save="1"/>
+                        <field name="einvoice_cancel_reason" readonly="1"
+                               invisible="not einvoice_canceled"/>
+<!--                               attrs="{'invisible':[('einvoice_canceled', '=' , False)]}"/>-->
+                        <field name="einvoice_cancel_date" readonly="1"
+                               invisible="not einvoice_canceled"/>
+<!--                               attrs="{'invisible':[('einvoice_canceled', '=' , False)]}"/>-->
+                    </group>
+                    <group>
+                        <group>
+                            <field name="einvoice_generated"/>
+                        </group>
+                        <group>
+                            <field name="einvoice_canceled"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

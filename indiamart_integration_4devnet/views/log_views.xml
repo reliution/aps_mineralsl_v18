@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="log_view_list_4devnet" model="ir.ui.view">
+            <field name="name">Logs</field>
+            <field name="model">indiamart.log</field>
+            <field name="arch" type="xml">
+                <list string="Logs" create="false">
+                    <field name="api_hit_key"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="count"/>
+                    <field name="response_code"/>
+                    <field name="response_description"/>
+                </list>
+            </field>
+        </record>
+    </data>
+</odoo>

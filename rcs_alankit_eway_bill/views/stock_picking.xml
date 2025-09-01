@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="alankit_stock_picking_form_inherit" model="ir.ui.view">
+            <field name="name">alankit.stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/field[@name='picking_type_id']"
+                       position="after">
+                    <field name="supply_type"
+                           invisible="picking_type_code in ('incoming','outgoing', 'mrp_operation')"/>
+                </xpath>
+
+                <xpath expr="//header" position="inside">
+                    <button name="create_eway_bill" string="Send E-waybill"
+                            invisible="eway_bill_generated or state != 'done' or picking_type_code != 'internal'"
+                            class="oe_highlight" type="object"/>
+                    <button name="cancel_ewaybill" string="Cancel E-Waybill"
+                            invisible="not eway_bill_generated or eway_bill_canceled"
+                            class="oe_highlight" type="object"/>
+                </xpath>
+                <xpath expr="//sheet/div[@name='button_box']" position="inside">
+                    <button name="open_alankit_ewaybill_logs" type="object" class="oe_stat_button" icon="fa-history"
+                            invisible="ewaybill_log_count == 0">
+<!--                            attrs="{'invisible': [('ewaybill_log_count', '=', 0)]}">-->
+                        <field name="ewaybill_log_count" widget="statinfo" string="Alankit EwayBill Logs"/>
+                    </button>
+                </xpath>
+                <xpath expr="//page[@name='extra']" position="before">
+                    <page name="alankit_details" string="Alankit Details"  invisible="picking_type_code !='internal'">
+                        <group name="E-way Bill Details" string="E-way Bill Details" >
+                            <group>
+                                <field name="document_type"/>
+                                <field name="sub_supply_type"/>
+                                <field name="transporter_id"/>
+                                <field name="transportation_gstin"/>
+                                <field name="transporter_contact_no" widget="phone" force_save="1"/>
+                                <!--                            <field name="sub_supply_desc"/>-->
+                            </group>
+                            <group>
+                                <field name="transaction_type"/>
+                                <field name="transportation_distance"/>
+                                <field name="transporter_in_mode"/>
+                                <field name="transportation_doc_name"
+                                       required="transporter_in_mode not in ['2', '3', '4']"
+                                       invisible="transporter_in_mode not in ['2', '3', '4']"/>
+<!--                                       attrs="{'invisible': [('transporter_in_mode', 'not in', ['2', '3', '4'])], 'required': [('transporter_in_mode', 'in', ['2', '3', '4'])]}"/>-->
+                                <field name="transportation_doc_date"
+                                       required="transporter_in_mode not in ['2', '3', '4']"
+                                       invisible="transporter_in_mode not in ['2', '3', '4']"/>
+<!--                                       attrs="{'invisible': [('transporter_in_mode', 'not in', ['2', '3', '4'])], 'required': [('transporter_in_mode', 'in', ['2', '3', '4'])]}"/>-->
+                                <field name="vehicle_no"
+                                       required="transporter_in_mode != '1'"
+                                       invisible="transporter_in_mode != '1'"/>
+<!--                                       attrs="{'invisible': [('transporter_in_mode', '!=', '1')], 'required': [('transporter_in_mode', '=', '1')]}"/>-->
+                                <field name="vehicle_type"
+                                       required="transporter_in_mode != '1'"
+                                       invisible="transporter_in_mode != '1'"/>
+<!--                                       attrs="{'invisible': [('transporter_in_mode', '!=', '1')], 'required': [('transporter_in_mode', '=', '1')]}"/>-->
+
+                            </group>
+                        </group>
+                        <group string="Generated E-way Bill Details">
+                            <field name="eway_bill_no" readonly="1" force_save="1"/>
+                            <field name="eway_bill_date" readonly="1" force_save="1"/>
+                            <field name="eway_bill_valid_till"/>
+<!--                                   invisible="eway_bill_canceled"/>-->
+<!--                                   attrs="{'invisible':[('eway_bill_canceled', '=', True)]}"/>-->
+                            <field name="eway_bill_cancel_date"
+                                   invisible="eway_bill_canceled"/>
+<!--                                   attrs="{'invisible':[('eway_bill_canceled', '=' , False)]}"/>-->
+                            <field name="eway_bill_cancel_reason"
+                                   invisible="eway_bill_canceled"/>
+<!--                                   attrs="{'invisible':[('eway_bill_canceled', '=' , False)]}"/>-->
+                        </group>
+                        <group>
+                            <group>
+                                <field name="eway_bill_generated"/>
+                            </group>
+                            <group>
+                                <field name="eway_bill_canceled"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

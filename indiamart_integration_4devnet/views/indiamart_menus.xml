@@ -1,0 +1,93 @@
+<odoo>
+
+    <record id="action_indiamart_config" model="ir.actions.act_window">
+        <field name="name">Indiamart Configuration</field>
+        <field name="res_model">indiamart.config.settings</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_indiamart_config_list"/>
+        <field name="target">current</field>
+    </record>
+
+    <record id="crm_lead_indiamart_action" model="ir.actions.act_window">
+        <field name="name">IndiaMart Leads</field>
+        <field name="res_model">crm.lead</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_indiamart_lead', '=', True)]</field>
+        <field name="context">{'create': False, 'edit': False}</field>
+    </record>
+
+    <record id="indiamart_log_action_4devnet" model="ir.actions.act_window">
+        <field name="name">Logs</field>
+        <field name="res_model">indiamart.log</field>
+        <field name="view_id" ref="log_view_list_4devnet"/>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_indiamart_customers" model="ir.actions.act_window">
+        <field name="name">Indiamart Customers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="domain">[('is_indiamart_lead', '=', True)]</field>
+    </record>
+
+    <record id="account.res_partner_action_supplier" model="ir.actions.act_window">
+        <field name="domain">[('supplier_rank', '>', 0)]</field>
+    </record>
+
+    <record id="action_indiamart_sales_team" model="ir.actions.act_window">
+        <field name="name">Indiamart Sales Team</field>
+        <field name="res_model">crm.team</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('name', '=', 'IndiaMart')]</field>
+    </record>
+    <record id="action_customer_and_sale" model="ir.actions.act_window">
+        <field name="name">Customer and Sale</field>
+        <field name="res_model">ir.ui.view</field>  <!-- Placeholder model -->
+        <field name="view_mode">form</field> <!-- Use form view as a placeholder -->
+        <field name="target">current</field>
+    </record>
+
+    <menuitem id="indiamart_menu_root"
+              name="Indiamart"
+              sequence="1" web_icon="indiamart_integration_4devnet,static/description/menu_icon.png" />
+
+    <menuitem id="indiamart_lead_menu"
+              name="Leads"
+              parent="indiamart_menu_root"
+              action="crm_lead_indiamart_action"
+              sequence="2"/>
+
+    <menuitem id="indiamart_configuration_menu"
+              name="Indiamart Configuration"
+              parent="indiamart_menu_root"
+              action="action_indiamart_config"
+              sequence="4"/>
+
+    <menuitem id="view_customer_and_sale"
+              name="Sales"
+              parent="indiamart_menu_root"
+              action="action_customer_and_sale"
+              sequence="3"/>
+
+    <menuitem id="customer_master_menu"
+              name="Customers"
+              parent="view_customer_and_sale"
+              action="action_indiamart_customers"/>
+
+    <menuitem id="sales_team_menu"
+              name="Team"
+              parent="view_customer_and_sale"
+              action="action_indiamart_sales_team"/>
+
+    <menuitem id="indiamart_log_menu"
+              name="Logs"
+              parent="indiamart_configuration_menu"
+              action="indiamart_log_action_4devnet"
+              sequence="4"/>
+
+    <menuitem id="indiamart_config_settings_menu"
+              name="Configuration"
+              parent="indiamart_configuration_menu"
+              action="action_indiamart_config"
+              sequence="3"/>
+</odoo>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="alankit_instance_form_view_ewaybill" model="ir.ui.view">
+            <field name="name">alankit.api.configuration.form.ewaybill</field>
+            <field name="model">alankit.api.configuration</field>
+            <field name="inherit_id" ref="rcs_alankit_configurations.alankit_instance_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="ewaybill_authentication" string="E-way Bill Authentication " type="object" class="oe_highlight" invisible = 'ewaybill_auth'/>
+                </xpath>
+                <xpath expr="//field[@name='username']" position="before">
+                    <field name="ewaybill_url"/>
+                    <field name="ewaybill_auth" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='app_key']" position="after">
+                    <field name="ewaybill_public_key"/>
+                </xpath>
+                <xpath expr="//group[@name='user_details']" position="after">
+                    <group>
+                        <group string="E-way Bill Token Details">
+                            <field name="ewaybill_access_token" readonly="1" force_save="1"/>
+                            <field name="ewaybill_Sek_key" readonly="1" force_save="1"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="alankit_instance_form_view_einvoice" model="ir.ui.view">
+            <field name="name">alankit.api.instance.form.einvoice</field>
+            <field name="model">alankit.api.configuration</field>
+            <field name="inherit_id" ref="rcs_alankit_configurations.alankit_instance_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="einvoice_authentication" string="E-invoice Authentication " type="object" class="oe_highlight" invisible = 'einvoice_auth'/>
+                </xpath>
+                <xpath expr="//field[@name='username']" position="before">
+                    <field name="einvoice_url"/>
+                    <field name="einvoice_auth" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='app_key']" position="after">
+                     <field name="einvoice_public_key"/>
+                </xpath>
+                <xpath expr="//group[@name='user_details']" position="after">
+                    <group>
+                            <group string="E-invoice Token Details">
+                                <field name="einvoice_access_token" readonly="1" force_save="1"/>
+                                <field name="einvoice_expire_time" readonly="1" force_save="1"/>
+                                <field name="einvoice_Sek_key" readonly="1" force_save="1"/>
+                            </group>
+                        </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,120 @@
+/* Social links section */
+.social-links {
+  width: 100%;
+  max-width: 700px;
+  margin: 30px auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  animation: slideUp 1s ease-in-out;
+}
+
+.social-links button {
+  height: 50px;
+  min-width: 200px;
+  cursor: pointer;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  text-decoration: none;
+  border: none;
+}
+
+.social-links button i {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-1 {
+  background-color: white;
+  border: 2px solid #7f54b3 !important;
+  color: #7f54b3;
+}
+
+.button-1:hover {
+  background-color: #f5f0ff;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(127, 84, 179, 0.2);
+}
+
+.button-1 i {
+  color: #7f54b3;
+}
+
+.button-2 {
+  background-color: #00aff0;
+  color: white;
+}
+
+.button-2:hover {
+  background-color: #0099d4;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 175, 240, 0.3);
+}
+
+.button-2 i {
+  color: white;
+}
+
+.button-3 {
+  background-color: #25d366;
+  color: white;
+}
+
+.button-3:hover {
+  background-color: #1fb655;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(37, 211, 102, 0.3);
+}
+
+.button-3 i {
+  color: white;
+}
+@media (max-width: 768px) {
+  .social-links button {
+    min-width: 180px;
+    font-size: 15px;
+    height: 48px;
+  }
+
+  .social-links button i {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .social-links {
+    gap: 15px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .social-links button {
+    min-width: 250px;
+    font-size: 14px;
+    height: 45px;
+    padding: 0 15px;
+  }
+
+  .social-links button i {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 320px) {
+  .social-links button {
+    min-width: 220px;
+    font-size: 13px;
+    height: 42px;
+  }
+}

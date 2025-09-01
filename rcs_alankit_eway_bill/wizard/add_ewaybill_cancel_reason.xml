@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    ewaybill cancellation-->
+    <record id="view_add_eway_cancel_reason_form" model="ir.ui.view">
+        <field name="name">cancel_ewaybill.reason.form</field>
+        <field name="model">alankit.ewaybill.cancel</field>
+        <field name="arch" type="xml">
+            <form string="Add Cancel Reason">
+                <group>
+                    <field name="eway_bill_cancel_reasons"/>
+                    <field name="eway_bill_cancel_remarks"/>
+                </group>
+                <footer>
+                    <button string='Cancel EwayBill' name='cancel_eway_bill' type='object' class='btn-primary'/>
+                    <button string='Cancel' class='btn-default' special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ebill" model="ir.actions.act_window">
+        <field name="name">cancel ebill Reason</field>
+        <field name="type">cancel_ewaybill.reason</field>
+        <field name="res_model">alankit.ewaybill.cancel</field>
+    </record>
+
+</odoo>
